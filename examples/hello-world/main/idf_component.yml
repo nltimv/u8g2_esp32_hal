@@ -1,0 +1,8 @@
+## IDF Component Manager Manifest File
+dependencies:
+  ## Required IDF version
+  idf:
+    version: '>=5.0'
+  u8g2_esp32_hal:
+    version: "^1.0.0"
+    override_path: ../../../

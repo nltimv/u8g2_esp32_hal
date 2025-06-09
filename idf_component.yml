@@ -1,0 +1,13 @@
+## IDF Component Manager Manifest File
+dependencies:
+  ## Required IDF version
+  idf:
+    version: '>=5.0'
+  espressif/i2c_bus:
+    version: '>=1,<2'
+  u8g2:
+    git: https://github.com/olikraus/u8g2.git
+description: Hardware Abstraction Layer (HAL) for the U8g2 library for the ESP32 (ESP-IDF framework)
+repository: https://github.com/nltimv/u8g2_esp32_hal
+issues: https://github.com/nltimv/u8g2_esp32_hal/issues
+version: "1.0.0"
