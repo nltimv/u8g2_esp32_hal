@@ -23,8 +23,17 @@ static uint8_t data_buf[32];
 static uint8_t data_buf_idx;
 
 esp_err_t u8g2_hal_init(const u8g2_hal_config_t *config) {
+    ESP_LOGD(TAG, "u8g2_hal_init: Initializing u8g2_esp32_hal");
+    if (config == NULL) {
+        ESP_LOGE(TAG, "u8g2_hal_init: config is NULL");
+        return ESP_ERR_INVALID_ARG;
+    }
     u8g2_hal_config = malloc(sizeof(u8g2_hal_config_t));
-    memcpy(u8g2_hal_config, config, sizeof(u8g2_hal_config_t));
+    if (u8g2_hal_config == NULL) {
+        ESP_LOGE(TAG, "Failed to allocate memory for u8g2_hal_config");
+        return ESP_ERR_NO_MEM;
+    }
+    *u8g2_hal_config = *config;
     return ESP_OK;
 }
 
@@ -68,6 +77,11 @@ uint8_t u8g2_esp32_hal_i2c_byte_cb(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, v
         case U8X8_MSG_BYTE_SEND:
             data_ptr = (uint8_t*)arg_ptr;
             ESP_LOG_BUFFER_HEXDUMP(TAG, data_ptr, arg_int, ESP_LOG_VERBOSE);
+            if (data_buf_idx + arg_int > sizeof(data_buf)) {
+                ESP_LOGE(TAG, "I2C data buffer overflow");
+                return 0;
+            }
+
             while (arg_int > 0) {
                 data_buf[data_buf_idx++] = *data_ptr;
                 data_ptr++;

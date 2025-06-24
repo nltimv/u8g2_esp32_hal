@@ -7,7 +7,7 @@
 #define PIN_I2C_SCL 5
 
 // Optionally, override the I2C address and contrast here
-// #define U8G2_I2C_ADDR
+// #define U8G2_I2C_ADDR 0x0
 // #define U8G2_CONTRAST 0
 
 // Set the constructor specific to your display here
@@ -23,7 +23,7 @@ void app_main(void)
     u8g2_hal_config_t u8g2_hal_config = U8G2_HAL_CONFIG_DEFAULT;
     u8g2_hal_config.i2c.scl = PIN_I2C_SCL;
     u8g2_hal_config.i2c.sda = PIN_I2C_SDA;
-    u8g2_hal_init(&u8g2_hal_config);
+    ESP_ERROR_CHECK(u8g2_hal_init(&u8g2_hal_config));
 
     U8G2_CTR(
       &u8g2,
